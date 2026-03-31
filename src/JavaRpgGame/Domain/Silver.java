@@ -51,7 +51,7 @@ public class Silver extends Character {
                     damage = 10;
                     break;
                 default:
-                    System.out.println("Opção inválida");
+                    System.out.println("Opção inválida, perdeu seu turno");
                     break;
             }
             int losingLife = boss.getLife() - damage;

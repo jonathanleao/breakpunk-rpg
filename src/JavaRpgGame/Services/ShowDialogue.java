@@ -51,6 +51,8 @@ public class ShowDialogue {
                 System.out.println("Morrer.........");
                 break;
             }
+            default:
+                throw new IllegalArgumentException("não pode usar números ou palavras diferentes!");
 
         }
     }

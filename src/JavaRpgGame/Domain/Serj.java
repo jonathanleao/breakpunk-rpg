@@ -52,7 +52,7 @@ public class Serj extends Character {
                     life += 60;
                     break;
                 default:
-                    System.out.println("Opção inválida");
+                    System.out.println("Opção inválida, perdeu seu turno");
                     break;
             }
             int losingLife = boss.getLife() - damage;

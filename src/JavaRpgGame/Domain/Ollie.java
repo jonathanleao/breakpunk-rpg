@@ -47,7 +47,7 @@ public class Ollie extends Character {
                     System.out.println("Ollie não ataca");
                     break;
                 default:
-                    System.out.println("Opção inválida");
+                    System.out.println("Opção inválida, perdeu seu turno");
                     break;
             }
              int losingLife = boss.getLife() - damage;

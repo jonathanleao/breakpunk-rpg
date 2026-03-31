@@ -6,6 +6,7 @@ import JavaRpgGame.Services.ShowCharacterDetails;
 import JavaRpgGame.Services.ShowDialogue;
 import JavaRpgGame.Services.StartGame;
 
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -31,54 +32,83 @@ public class RpgCharactersMain {
         System.out.println("SEJA BEM VINDO A BREAKPUNK");
         System.out.println("===================================================");
         // Selecionar personagem
-        System.out.println("Qual personagem deseja escolher?");
-        System.out.println("\n1- Silver" +
-                "\n2 - Ollie" +
-                "\n3 - Serj");
+        do {
+            System.out.println("Qual personagem deseja escolher?");
+            System.out.println("\n1- Silver" +
+                    "\n2 - Ollie" +
+                    "\n3 - Serj");
 
-        System.out.println("\nEscolha (1),(2),(3)");
-        int select = scanner.nextInt();
-        switch (select) {
-            case 1:
-                player = silver;
-                break;
-            case 2:
-                player = ollie;
-                break;
+            System.out.println("\nEscolha (1),(2),(3)");
+            try {
+                int select = scanner.nextInt();
+                switch (select) {
+                    case 1:
+                        player = silver;
+                        break;
+                    case 2:
+                        player = ollie;
+                        break;
 
-            case 3:
-                player = serj;
-                break;
+                    case 3:
+                        player = serj;
+                        break;
 
-            default:
-                System.out.println("Esse personagem não existe, encerrando Jogo...");
-                System.exit(0);
+                    default:
+                        System.out.println("Esse personagem não existe, tente novamente...");
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("digite apenas números!!!");
+                scanner.nextLine();
+            }
+        } while (player == null);
 
-        }
         //Setando player como inimigo do boss
         boss.setCharacter(player);
         //Mostrando as informações do persoagem
         System.out.println("Informações do seu personagem");
         System.out.println(player);
         System.out.println("------------------------------------");
-        System.out.println("\nDeseja ver as informações do seu personagem? (sim/não)");
 
-        char information = scanner.next().charAt(0);
         ShowCharacterDetails showCharacterDetails = new ShowCharacterDetails();
-        showCharacterDetails.showInformation(player, information);
+        do {
+            try {
+                System.out.println("\nDeseja ver as informações do seu personagem? (sim/não)");
+                char information = scanner.next().charAt(0);
+                showCharacterDetails.showInformation(player, information);
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (true);
         //Iniciando o a aventura
         System.out.println("==============================================================================================");
-        System.out.println("\nDesejar iniciar sua aventura jovem guerreiro?");
         StartGame startGame = new StartGame();
-        char start = scanner.next().charAt(0);
-        startGame.startAdventure(start);
+        do {
+            try {
+                System.out.println("\nDesejar iniciar sua aventura jovem guerreiro?");
+                char start = scanner.next().charAt(0);
+                startGame.startAdventure(start);
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (true);
+
 
         //Sistema de dialogo com o chefe
-        System.out.println("\nHoras antes do fim...");
-        System.out.println("\nDeseja pular o dialogo? (sim/não)");
-        char startFinalBattle = scanner.next().charAt(0);
-        ShowDialogue showDialogue = new ShowDialogue();
-        showDialogue.showDialogue(player, startFinalBattle);
+        do {
+            try {
+                System.out.println("\nHoras antes do fim...");
+                System.out.println("\nDeseja pular o dialogo? (sim/não)");
+                char startFinalBattle = scanner.next().charAt(0);
+                ShowDialogue showDialogue = new ShowDialogue();
+                showDialogue.showDialogue(player, startFinalBattle);
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (true);
         //informações do Boss
         System.out.println("==============================================================================================================");
         System.out.println("Detalhes do BOSS");
@@ -89,20 +119,27 @@ public class RpgCharactersMain {
         int atack;
         String name = player.getCharacterNames().getName();
         do {
-            //loop de ataque do personagem e do boss
-            System.out.println("\nTurno de " + name);
-            System.out.println("\nCom qual golpe você deseja atacar?");
-            player.showAttacks();
-            atack = scanner.nextInt();
-            player.attack(atack);
-            if (boss.getLife() <= 0) {
-                player.setLevel(100);
-                System.out.println("\nVocê derrotou o tirano, libertou seus amigos" + " \ne sua glória será lembrada para tod0 o sempre");
-                System.out.println("\nFim de jogo...");
-                System.out.println("Você derrotou o Boss e upou para o nível: " + player.getLevel());
-                System.out.println(player);
-                break;
+            try {
+                //loop de ataque do personagem e do boss
+                System.out.println("\nTurno de " + name);
+                System.out.println("\nCom qual golpe você deseja atacar?");
+                player.showAttacks();
+                atack = scanner.nextInt();
+                player.attack(atack);
+                if (boss.getLife() <= 0) {
+                    player.setLevel(100);
+                    System.out.println("\nVocê derrotou o tirano, libertou seus amigos" + " \ne sua glória será lembrada para todo o sempre");
+                    System.out.println("\nFim de jogo...");
+                    System.out.println("Você derrotou o Boss e upou para o nível: " + player.getLevel());
+                    System.out.println(player);
+                    break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Digite apenas Números!!!");
+                System.out.println("Turno perdido");
+                scanner.nextLine();
             }
+
             System.out.println("-------------------------------------------------------------------------");
             System.out.println("\nTurno do Boss");
             System.out.println("Ataques do boss");

@@ -12,7 +12,8 @@ public class StartGame{
             case 'n':
             case 'N':
                 System.out.println("A sua Falta de coragem, levou sua familia, e todos que você ama, a morte...");
-                System.exit(0);
+            default:
+                throw new IllegalArgumentException("não pode usar números ou palavras diferentes!");
         }
     }
 }
